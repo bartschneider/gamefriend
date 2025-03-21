@@ -3,7 +3,7 @@ Chat session implementation.
 """
 from typing import Optional
 from .interfaces import ChatSession
-from .companion import GameCompanion
+from .chat.companion import GameCompanion
 import logging
 
 logger = logging.getLogger(__name__)
