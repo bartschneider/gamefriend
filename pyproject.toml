@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "gamefriend"
+version = "0.1.0"
+description = "An AI-powered gaming companion that helps you navigate through game guides using natural language"
+authors = ["Your Name <your.email@example.com>"]
+readme = "README.md"
+packages = [{include = "gamefriend"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.110.0"
+uvicorn = "^0.27.1"
+pydantic = "^2.6.3"
+mistralai = "^0.0.10"
+python-dotenv = "^1.0.1"
+beautifulsoup4 = "^4.12.3"
+markdown = "^3.5.2"
+python-multipart = "^0.0.9"
+sqlalchemy = "^2.0.27"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+pytest-cov = "^4.1.0"
+mypy = "^1.8.0"
+flake8 = "^7.0.0"
+black = "^24.1.0"
+isort = "^5.13.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --cov=gamefriend --cov-report=term-missing" 

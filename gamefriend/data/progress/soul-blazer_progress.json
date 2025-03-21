@@ -1,0 +1,25 @@
+{
+  "game": "soul-blazer",
+  "locations_visited": [
+    "Grass Valley"
+  ],
+  "achievements": [
+    "Defeated Metal Mantis"
+  ],
+  "inventory": [
+    "Brown Stone"
+  ],
+  "current_location": "Grass Valley",
+  "notes": [
+    {
+      "text": "Return to the shrine with the Brown Stone to access the next level.",
+      "location": "Grass Valley"
+    }
+  ],
+  "bosses_defeated": [
+    "Metal Mantis"
+  ],
+  "quests_completed": [
+    "notes: Return to the shrine with the Brown Stone to access the next level."
+  ]
+}

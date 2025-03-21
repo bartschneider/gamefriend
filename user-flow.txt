@@ -1,0 +1,81 @@
+GameFriend User Flow Documentation
+
+1. Initial Load:
+   - User visits the application at http://localhost:3002
+   - Frontend makes a GET request to /api/games to fetch available games
+   - Games are displayed in a list/grid format
+
+2. Game Selection:
+   - User clicks on a game from the list
+   - This sets the gameContext in the frontend state
+   - The chat interface becomes available for that specific game
+
+3. Chat Session Initialization:
+   - Frontend checks localStorage for existing session ID (gamefriend_chat_session_id)
+   - If a session ID exists:
+     - Frontend makes GET request to /api/chat/sessions/{session_id}
+     - Backend retrieves session from database
+     - Chat history is loaded and displayed
+   - If no session exists:
+     - A new session will be created on first message
+
+4. Message Sending:
+   - User types a message and clicks send
+   - Frontend immediately displays user message in chat
+   - Frontend makes POST request to /api/chat with:
+     - message content
+     - game context (game name)
+     - session ID (if exists)
+
+5. Backend Processing:
+   - Backend receives request and:
+     - Creates new session if none exists
+     - Stores user message in session
+     - Uses GuideRetriever to:
+       - Find relevant chunks from game guides
+       - Create embeddings for chunks if needed
+       - Retrieve most relevant guide content
+     - Combines guide content with chat history
+     - Sends combined context to Mistral AI
+     - Gets AI response grounded in game guide content
+
+6. Response Handling:
+   - Backend receives AI response
+   - Stores assistant message in session
+   - Returns to frontend:
+     - session ID
+     - AI response
+     - complete message history
+
+7. Frontend Update:
+   - Frontend receives response
+   - Displays AI message in chat
+   - Updates localStorage with:
+     - session ID
+     - complete message history
+   - Chat interface scrolls to show new messages
+
+8. Session Persistence:
+   - If user refreshes page:
+     - Frontend retrieves session ID from localStorage
+     - Fetches chat history from backend
+     - Displays full conversation history
+   - If user switches games:
+     - New session is created for new game
+     - Previous session remains available
+
+9. Error Handling:
+   - If guide content not found:
+     - AI informs user it can't find relevant information
+   - If API calls fail:
+     - Frontend shows error message in chat
+     - User can retry sending message
+   - If session loading fails:
+     - Frontend logs error
+     - Creates new session on next message
+
+This flow ensures that:
+- Chat sessions persist across page reloads
+- Responses are always grounded in game guide content
+- Users can switch between games while maintaining separate conversations
+- The system gracefully handles errors and edge cases 
