@@ -23,6 +23,7 @@ export function GameSelector({ onGameSelect }: GameSelectorProps) {
   const [isImporting, setIsImporting] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
   const [success, setSuccess] = React.useState<string | null>(null)
+  const [selectedGameId, setSelectedGameId] = React.useState<string | null>(null)
 
   // Fetch games on component mount
   React.useEffect(() => {
@@ -45,6 +46,7 @@ export function GameSelector({ onGameSelect }: GameSelectorProps) {
 
   const handleGameSelect = async (game: Game) => {
     try {
+      setSelectedGameId(game.id)
       const gameContext: GameContextType = {
         name: game.name,
         platform: game.platform,
@@ -105,7 +107,11 @@ export function GameSelector({ onGameSelect }: GameSelectorProps) {
             games.map(game => (
               <Card
                 key={game.id}
-                className="p-4 cursor-pointer hover:bg-muted/50 transition-colors"
+                className={`p-4 cursor-pointer transition-all duration-200 ${
+                  selectedGameId === game.id 
+                    ? 'bg-primary/10 border-primary' 
+                    : 'hover:bg-muted/50'
+                }`}
                 onClick={() => handleGameSelect(game)}
               >
                 <div className="flex items-center justify-between">

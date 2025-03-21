@@ -1,7 +1,7 @@
 GameFriend User Flow Documentation
 
 1. Initial Load:
-   - User visits the application at http://localhost:3002
+   - User visits the application at http://localhost:3000
    - Frontend makes a GET request to /api/games to fetch available games
    - Games are displayed in a list/grid format
 

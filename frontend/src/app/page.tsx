@@ -8,9 +8,11 @@ import type { GameContext } from '@/types/game'
 
 export default function Home() {
   const [activeGame, setActiveGame] = React.useState<GameContext | null>(null)
+  const [activeTab, setActiveTab] = React.useState('chat')
 
   const handleGameSelect = (game: GameContext) => {
     setActiveGame(game)
+    setActiveTab('chat')
   }
 
   return (
@@ -23,7 +25,7 @@ export default function Home() {
           </p>
         </div>
 
-        <Tabs defaultValue="chat" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList>
             <TabsTrigger value="chat">Chat</TabsTrigger>
             <TabsTrigger value="games">Games</TabsTrigger>
