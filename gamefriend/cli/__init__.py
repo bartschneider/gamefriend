@@ -12,6 +12,7 @@ from rich.prompt import Prompt
 
 from gamefriend.chat.companion import GameCompanion
 from gamefriend.scraper import GameFAQsScraper
+from gamefriend.guide_manager import FileSystemGuideManager
 
 # Default console instance
 default_console = Console()
@@ -51,6 +52,42 @@ def download(url: str, output: str = None, verbose: bool = False):
 
     except Exception as e:
         print(f"Error: {str(e)}")
+        raise click.Abort()
+
+
+@cli.command()
+@click.option("--game", help="Generate embeddings for a specific game only")
+@click.option("--platform", help="Generate embeddings for a specific platform only")
+@click.option("-v", "--verbose", is_flag=True, help="Enable verbose output")
+def embeddings(game: str = None, platform: str = None, verbose: bool = False):
+    """Generate embeddings for game guides."""
+    try:
+        guide_manager = FileSystemGuideManager()
+        
+        if verbose:
+            import logging
+            logging.getLogger("gamefriend").setLevel(logging.DEBUG)
+            
+        if game and platform:
+            # Generate embeddings for a specific game
+            print(f"Generating embeddings for {game} on {platform}...")
+            guide_manager._generate_embeddings(game, platform)
+            print(f"Successfully generated embeddings for {game}")
+        else:
+            # Generate embeddings for all games
+            print("Generating embeddings for all games...")
+            results = guide_manager.generate_embeddings_for_all_games()
+            print(f"Successfully processed {results['processed']} games")
+            if results['failed']:
+                print(f"Failed to process {len(results['failed'])} games:")
+                for failed in results['failed']:
+                    print(f"  - {failed}")
+    
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        if verbose:
+            import traceback
+            print(traceback.format_exc())
         raise click.Abort()
 
 

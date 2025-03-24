@@ -33,6 +33,23 @@ class GuideManager(ABC):
             Each dict has keys: name, platform
         """
         pass
+        
+    @abstractmethod
+    def get_guide_context(self, game_name: str, query: str, top_k: int = 3) -> str:
+        """Get relevant guide context for a query.
+        
+        Args:
+            game_name: Name of the game
+            query: The query to find relevant context for
+            top_k: Number of top chunks to return
+            
+        Returns:
+            Formatted string with relevant guide excerpts
+            
+        Raises:
+            FileNotFoundError: If no embeddings found for the game
+        """
+        pass
 
 class ChatSession(ABC):
     """Interface for chat sessions with GameFriend."""
